@@ -1,0 +1,272 @@
+body {
+  background-color: #f8f9fa;
+  margin: 0;
+}
+
+/* Header Styling */
+.header {
+  background-color: white;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.header .left-section {
+  display: flex;
+  align-items: center;
+}
+
+.header .left-section h5 {
+  margin-right: 15px;
+}
+
+.header .hamburger {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.header .right-section {
+  display: flex;
+  align-items: center;
+}
+
+.header .right-section img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.header .right-section .name {
+  margin-left: 10px;
+}
+
+.header .logout-icon {
+  margin-left: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 250px;
+  background-color: #fff;
+  position: fixed;
+  top: 60px; /* Adjust for the header height */
+  bottom: 0;
+  left: 0;
+  padding-top: 20px;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+  height: 100vh;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(0);
+}
+
+/* Sidebar hidden when toggled */
+.sidebar.hide {
+  transform: translateX(-100%); /* Sidebar hidden */
+}
+
+.sidebar a {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color: #6c757d;
+  font-size: 16px;
+  border-bottom: 1px solid #f1f1f1;
+  display: flex;
+  align-items: center;
+}
+
+
+.sidebar a:hover {
+  background-color: #f1f1f1;
+  color: #000;
+}
+
+.sidebar a.active {
+  color: #6a0dad;
+  font-weight: bold;
+}
+
+.sidebar i {
+  margin-right: 10px;
+}
+
+
+/* Content Styling */
+.content {
+  margin-left: 260px; /* Adjust for the sidebar width */
+  padding: 50px;
+  margin-top: 60px;
+  padding: 20px;
+}
+
+/* Card Styling */
+.card {
+  border-radius: 10px;
+  color: white;
+  height: 200px;
+}
+
+.card-red {
+  background: linear-gradient(to right, #ff758c, #ff7eb3);
+}
+
+.card-blue {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+}
+
+.card-green {
+  background: linear-gradient(to right, #43e97b, #38f9d7);
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 10px;
+  text-align: center;
+}
+
+table th {
+  background-color: #f8f9fa;
+}
+
+table .table-light {
+  background-color: #f8f9fa;
+}
+
+table .badge {
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+/* Card Content Styling */
+.card h5 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.card h2 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+
+
+
+/* Header Styling */
+.header {
+
+}
+
+.left-section h5 {
+  margin: 0;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.logout-icon {
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+/* Form Container */
+.content {
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+/* Heading for the form */
+.content h4 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+/* Form Labels */
+.form-label {
+  font-weight: 600;
+  color: #495057;
+}
+
+/* Input Fields */
+.form-control {
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+/* Focus state for input fields */
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Submit Button */
+.btn-primary {
+  background-color: #6a0dad;
+  border-color: #6a0dad;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+
+/* Submit Button Hover State */
+.btn-primary:hover {
+  background-color: #5a0c99;
+  border-color: #5a0c99;
+}
+
+/* Spacing between form elements */
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
+
+/* Textarea for Description */
+textarea.form-control {
+  height: 150px;
+}
+
+/* Responsive Design - Form inside a container */
+@media (max-width: 767px) {
+  .content {
+      padding: 15px;
+  }
+
+  .form-label {
+      font-size: 0.9rem;
+  }
+
+  .form-control {
+      font-size: 0.9rem;
+  }
+}
+
+
+
