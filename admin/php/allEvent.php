@@ -73,8 +73,10 @@
     <table class="table table-bordered table-hover">
         <thead class="table-light">
             <tr>
-                <th>Event ID</th>
+                <th>User</th>
                 <th>Event Name</th>
+                <th>Mobile Money</th>
+                <th>Payment Service</th>
                 <th>Location</th>
                 <th>Action</th>
             </tr>
@@ -83,8 +85,10 @@
        
         <?php foreach ($events as $event): ?>
   <tr>
-    <td><?php echo $event['id']; ?></td>
     <td><?php echo $event['name']; ?></td>
+    <td><?php echo $event['event']; ?></td>
+    <td><?php echo $event['phone_number']; ?></td>
+    <td><?php echo $event['service']; ?></td>
     <td><?php echo $event['location']; ?></td>
     <!-- Action buttons -->
     <td class="d-flex justify-content-center">

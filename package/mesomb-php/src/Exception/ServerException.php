@@ -3,6 +3,7 @@
 namespace MeSomb\Exception;
 
 use Exception;
+use Throwable;
 
 class ServerException extends Exception
 {

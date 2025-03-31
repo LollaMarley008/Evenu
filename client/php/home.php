@@ -1,21 +1,38 @@
 <?php
 
   require __DIR__ ."/../../config/mail.php";
+  require "../../authentication/php/dbconn.php";
 
   ini_set('display_errors', 1);
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
 
-  $nameError = $emailError = $eventError = $locationError = $detailError = "";
+  $nameError = $emailError = $eventError = $locationError = $detailError = $phoneError = $serviceError = "";
+
+  $selectEvents = $conn->prepare("SELECT * FROM event_prices");
+  $selectEvents->execute();
+  $allSystemEvents = $selectEvents->fetchAll(PDO::FETCH_ASSOC);
+
+  // echo "<pre>";
+  // print_r($allSystemEvents);
+  // echo "</pre>";
+  // exit;
 
   if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+  // echo "<pre>";
+  // print_r($_POST);
+  // echo "</pre>";
+  // exit;
+
     $name = $_POST['name'];
     $email = $_POST['email'];
     $event = $_POST['event'];
     $location = $_POST['location'];
     $details = $_POST['details'];
-
-  
+    $phone = $_POST['phone'];
+    $service = $_POST['service'];
+    
 
     if(empty($name)){
       $nameError = "Enter event name";
@@ -38,25 +55,37 @@
       $detailError = "Enter a description of your event";
     }
 
-    if(empty($nameError) && empty($emailError) && empty($eventError) && empty($locationError) && empty($detailError)){
-      require "../../authentication/php/dbconn.php";
+    if(empty($phone)){
+      $phoneError = "Enter your mobile money number";
+    }
 
-      $status = "pending";
+    if(empty($service)) {
+      $serviceError = "Select a Mobile Money Service";
+    }
 
-      $setTable = $conn->prepare("INSERT INTO events(name,email,event,location,details,status) VALUES(:name,:email,:event,:location,:details,:status)");
+    if (empty($nameError) && empty($emailError) && empty($eventError) && empty($locationError) && empty($detailError) && empty($phoneError) && empty($serviceError)) {
 
-     $execute =  $setTable->execute([
+      $setTable = $conn->prepare("INSERT INTO events(name,email,phone_number,event,location,details, service) VALUES(:name,:email,:phone_number,:event,:location,:details, :service)");
+
+      $execute =  $setTable->execute([
         "name" => $_POST["name"],
         "email" => $_POST["email"],
         "event" => $_POST["event"],
         "location" => $_POST["location"],
         "details" => $_POST["details"],
-        "status" => $status
+        "phone_number" => $_POST['phone'],
+        "service" => $_POST['service']
       ]);
-
+ 
+        // echo "<pre>";
+        // var_dump($execute);
+        // echo "</pre>";
+        // exit;
+      
       header("Location: message.php");
     }
   }  
+
 
 ?>
 
@@ -129,9 +158,38 @@
               <span class="text-danger"><?php echo $emailError; ?></span>
             </div>
             <div class="form-input">
-              <input type="text" id="event" name="event" placeholder="Your Event" class="form-control">
+              <select id="event" name="event" class="form-control">
+                  <option disabled selected>Select an Event</option>
+                  <?php if(count($allSystemEvents) > 0): ?>
+
+                      <?php foreach($allSystemEvents as  $event): ?>
+
+                          <option value="<?= $event['name'] ?>"><?= $event['name'] ?></option>
+
+                      <?php endforeach ?>
+
+                  <?php endif ?>
+              </select>
               <span class="text-danger"><?php echo $eventError; ?></span>
             </div>
+
+            <div class="form-input">
+              <input type="text" id="phone" name="phone" placeholder="Mobile Money Number" class="form-control">
+              <span class="text-danger"><?php echo $phoneError; ?></span>
+              <span class="text-danger">Type your correct mobile money number</span>
+            </div>
+
+
+            <div class="form-input mb-3">
+                <select id="service" name="service" class="form-control">
+                  <option disabled selected>Select Service</option>
+                  <option value="MTN">MTN Mobile Money</option>
+                  <option value="MTN">Orange Money</option>
+                </select>
+                <span class="text-danger"><?php echo $serviceError; ?></span>
+                <span class="text-danger">Select the correct service for the mobile money number</span>
+              </div>
+
             <div class="form-input">
               <input type="text" id="location" name="location" placeholder="Your Location" class="form-control">
               <span class="text-danger"><?php echo $locationError; ?></span>

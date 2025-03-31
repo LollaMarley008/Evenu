@@ -4,6 +4,3 @@ vendor
 .phpdoc
 phpdoc-markdown
 composer.lock
-composer.phar
-example.php
-*.bak

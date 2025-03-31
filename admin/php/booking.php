@@ -1,3 +1,28 @@
+<?php
+  session_start();
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
+
+  // echo if there is something in the session variables
+
+  if(isset($_SESSION["success"])){
+    echo "<script> alert('". $_SESSION["success"]."') </script>";
+    unset($_SESSION["success"]);
+  }else if(isset($_SESSION["failure"])){
+    echo "<script> alert('".$_SESSION["failure"]."') </script>";
+    unset($_SESSION["failure"]);
+  }
+
+  require_once "../../authentication/php/dbconn.php";
+  
+  $stmt = $conn->prepare("SELECT * FROM events WHERE status = 'accepted' ");
+  $stmt->execute();
+  
+  $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,35 +78,47 @@
                 <th>Customer Name</th>
                 <th>Event Type</th>
                 <th>Booking Status</th>
+                <th>Payment Status</th>
                 <th>Amount(FCFA)</th>
-                <th>Event date</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <!-- <tr>
                 <td>BKG-12345</td>
                 <td>John</td>
                 <td>Mariage</td>
                 <td>Approved</td>
                 <td>100000</td>
                 <td>May 15, 2024</td>
-            </tr>
+            </tr> -->
+                   
+        <?php foreach ($events as $event): ?>
             <tr>
-                <td>BKG-12346</td>
-                <td>Peter</td>
-                <td>Mariage</td>
-                <td>Approved</td>
-                <td>100000</td>
-                <td>June 15, 2024</td>
+              <td><?php echo $event['id']; ?></td>
+              <td><?php echo $event['name']; ?></td>
+              <td><?php echo $event['event']; ?></td>
+              <td><?php echo $event['status']; ?></td>
+              <td>
+                  <?php if($event['payment'] == false): ?>
+                      <span class="badge bg-danger">Failed</span>
+                  <?php else: ?>
+                    <span class="badge bg-success">Success</span>
+                  <?php endif ?>
+              </td>
+              <td><?php echo $event['amount']; ?></td>
+              <!-- Action buttons -->
+              <td class="d-flex justify-content-center">
+                <!-- Delete Button -->
+                <form action="delete_event.php" method="POST" class="m-0 ms-2">
+                  <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
+                  <button type="submit" class="btn btn-danger text-white">
+                    Delete <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+              </td>
             </tr>
-            <tr>
-                <td>BKG-12347</td>
-                <td>lolla marley</td>
-                <td>graduation</td>
-                <td>Approved</td>
-                <td>100000</td>
-                <td>January 10, 2025</td>
-            </tr>
+          <?php endforeach; ?>
         </tbody>
     </table>
 </div>
