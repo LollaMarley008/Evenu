@@ -1,5 +1,7 @@
 <?php
 
+  require __DIR__ ."/../../config/mail.php";
+
   ini_set('display_errors', 1);
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
@@ -12,6 +14,8 @@
     $event = $_POST['event'];
     $location = $_POST['location'];
     $details = $_POST['details'];
+
+  
 
     if(empty($name)){
       $nameError = "Enter event name";
@@ -37,14 +41,17 @@
     if(empty($nameError) && empty($emailError) && empty($eventError) && empty($locationError) && empty($detailError)){
       require "../../authentication/php/dbconn.php";
 
-      $setTable = $conn->prepare("INSERT INTO events(name,email,event,location,details) VALUES(:name,:email,:event,:location,:details)");
+      $status = "pending";
 
-      $setTable->execute([
+      $setTable = $conn->prepare("INSERT INTO events(name,email,event,location,details,status) VALUES(:name,:email,:event,:location,:details,:status)");
+
+     $execute =  $setTable->execute([
         "name" => $_POST["name"],
         "email" => $_POST["email"],
         "event" => $_POST["event"],
         "location" => $_POST["location"],
-        "details" => $_POST["details"]
+        "details" => $_POST["details"],
+        "status" => $status
       ]);
 
       header("Location: message.php");
