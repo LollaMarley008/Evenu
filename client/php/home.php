@@ -41,14 +41,17 @@
     if(empty($nameError) && empty($emailError) && empty($eventError) && empty($locationError) && empty($detailError)){
       require "../../authentication/php/dbconn.php";
 
-      $setTable = $conn->prepare("INSERT INTO events(name,email,event,location,details) VALUES(:name,:email,:event,:location,:details)");
+      $status = "pending";
+
+      $setTable = $conn->prepare("INSERT INTO events(name,email,event,location,details,status) VALUES(:name,:email,:event,:location,:details,:status)");
 
      $execute =  $setTable->execute([
         "name" => $_POST["name"],
         "email" => $_POST["email"],
         "event" => $_POST["event"],
         "location" => $_POST["location"],
-        "details" => $_POST["details"]
+        "details" => $_POST["details"],
+        "status" => $status
       ]);
 
       header("Location: message.php");

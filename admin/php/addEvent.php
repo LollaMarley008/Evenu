@@ -3,37 +3,52 @@
   ini_set('display_errors', 1);
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
-
-  $nameError = $locationError = $descriptionError = "";
+  
+  $nameError = $emailError = $eventError = $locationError = $detailError = "";
 
   if($_SERVER["REQUEST_METHOD"] == "POST"){
     $name = $_POST['name'];
+    $email = $_POST['email'];
+    $event = $_POST['event'];
     $location = $_POST['location'];
-    $description = $_POST['description'];
+    $details = $_POST['details'];
 
     if(empty($name)){
       $nameError = "Enter event name";
     }
 
+    if(empty($email)){
+      $emailError = "Enter email";
+    }
+
+    if(empty($event)){
+      $eventError = "Enter your event";
+    }
+
     if(empty($location)){
-      $locationError = "Enter location";
+      $locationError = "Enter your event location";
     }
 
-    if(empty($description)){
-      $descriptionError = "Enter a description of your event";
+
+    if(empty($details)){
+      $detailError = "Enter a description of your event";
     }
 
-    if(empty($nameError) && empty($locationError) && empty($descriptionError)){
+    if(empty($nameError) && empty($emailError) && empty($eventError) && empty($locationError) && empty($detailError)){
       require "../../authentication/php/dbconn.php";
 
-      $setTable = $conn->prepare("INSERT INTO events(name,location,description) VALUES(:name,:location,:description)");
+      $status = "pending";
 
-      $setTable->execute([
+      $setTable = $conn->prepare("INSERT INTO events(name,email,event,location,details,status) VALUES(:name,:email,:event,:location,:details,:status)");
+
+     $execute =  $setTable->execute([
         "name" => $_POST["name"],
+        "email" => $_POST["email"],
+        "event" => $_POST["event"],
         "location" => $_POST["location"],
-        "description" => $_POST["description"]
+        "details" => $_POST["details"],
+        "status" => $status
       ]);
-
     }
   }  
 
@@ -87,12 +102,26 @@
   <div class="content bg-white rounded ">
     <h4 class="mb-5 mt-5">Add Event</h4>
     <form class="" method="post">
+
+      <div class="form-input mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your Name" class="form-control">
+          <span class="text-danger"><?php echo $nameError; ?></span>
+      </div>
+
+      <div class="form-input mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="text" id="email" name="email" placeholder="Your Email" class="form-control">
+          <span class="text-danger"><?php echo $emailError; ?></span>
+      </div>
+
         <!-- Event Name -->
         <div class="mb-3">
-            <label for="event-name" class="form-label">Event Name</label>
-            <input type="text" class="form-control" id="event-name" placeholder="Enter event name" name="name">
+            <label for="event" class="form-label">Event</label>
+            <input type="text" class="form-control" id="event" placeholder="Event" name="event">
             <span class="text-danger"><?php echo $nameError; ?></span>
         </div>
+
 
         <!-- Location -->
         <div class="mb-3">
@@ -101,11 +130,11 @@
             <span class="text-danger"><?php echo $locationError; ?></span>
         </div>
 
-        <!-- Description -->
+        <!-- Details -->
         <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" rows="4" placeholder="Enter event description" name="description"></textarea>
-            <span class="text-danger"><?php echo $descriptionError; ?></span>
+            <label for="details" class="form-label">Details</label>
+            <textarea class="form-control" id="details" rows="4" placeholder="Enter event description" name="details"></textarea>
+            <span class="text-danger"><?php echo $detailError; ?></span>
         </div>
 
         <!-- Submit Button -->
