@@ -8,10 +8,8 @@ require __DIR__ ."/../package/PHPMailer/src/Exception.php";
 require __DIR__ ."/../package/PHPMailer/src/PHPMailer.php";
 require __DIR__."/../package/PHPMailer/src/SMTP.php";
 
-function usePHPMailer($subject, $message) {
+function usePHPMailer($to, $subject, $message) {
     try {
-
-        $to = "info@evenu.com";
 
         $mailConfig = [
             'host' => '127.0.0.1',    
