@@ -120,7 +120,7 @@
 
         <!-- Image 2 -->
         <div class="col">
-            <img src="assets/images/grad2.jpg" alt="Graduation Event">
+            <img src="assets/images/grad1.jpg" alt="Graduation Event">
             <div class="overlay">
                 <h3>Graduation Party</h3>
                 <p>Make memories that last a lifetime with your friends and family.</p>
